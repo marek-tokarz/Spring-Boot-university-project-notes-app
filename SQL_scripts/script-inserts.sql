@@ -19,6 +19,8 @@ INSERT INTO roles (user_id, role) VALUES
 ('sarah_jones', 'ROLE_USER'),
 ('tom_brown', 'ROLE_USER');
 
+ALTER TABLE category AUTO_INCREMENT = 1;
+
 -- Insert data into category table
 INSERT INTO category (name) VALUES
 ('Work'),
@@ -28,6 +30,8 @@ INSERT INTO category (name) VALUES
 ('Travel'),
 ('Health'),
 ('Projects');
+
+ALTER TABLE note AUTO_INCREMENT = 1;
 
 -- Insert data into note table
 INSERT INTO note (title, content, user_id) VALUES
@@ -59,4 +63,4 @@ INSERT INTO note_category (note_id, category_id) VALUES
 (9, 1),  -- Website Redesign -> Work
 (9, 7),  -- Website Redesign -> Projects
 (10, 6),  -- Meal Prep Sunday -> Health
-(10, 2); -- Meal Prep Sunday -> Personal
+(10, 2); -- Meal Prep Sunday -> Personalid
