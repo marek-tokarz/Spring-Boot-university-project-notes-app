@@ -29,12 +29,14 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Category category, Integer id) {
+    public Category updateCategory(Category category, Integer id) throws ObjectNotFoundException {
         Optional<Category> existingCategoryOpt = this.getCategoryById(id);
         if (existingCategoryOpt.isPresent()) {
-            category.setId(id);
+            Category existingCategory = existingCategoryOpt.get();
+            existingCategory.setName(category.getName()); // Używaj istniejącego obiektu
+            return this.categoryRepository.save(existingCategory); // Zapisz zmiany w istniejącym obiekcie
         }
-        return this.createCategory(category);
+        throw new ObjectNotFoundException(id); // Rzuć wyjątek, jeśli kategoria nie istnieje
     }
 
     public void deleteCategory(Integer id) throws ObjectNotFoundException {
