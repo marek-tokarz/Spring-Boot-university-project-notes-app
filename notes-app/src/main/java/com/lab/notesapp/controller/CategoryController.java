@@ -50,7 +50,7 @@ public class CategoryController {
     @Operation(method = "PUT", summary = "Update a category", description = "Update an existing category by id")
     public ResponseEntity<Category> updateCategory(
             @Parameter(name = "id", description = "ID of the category to update") @PathVariable Integer id,
-            @Parameter(name = "Category", description = "Updated category data") @RequestBody Category category) {
+            @Parameter(name = "Category", description = "Updated category data") @RequestBody Category category) throws ObjectNotFoundException {
 
         Category updatedCategory = categoryService.updateCategory(category, id);
         return ResponseEntity.ok(updatedCategory);
