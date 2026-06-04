@@ -29,12 +29,14 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-    public Note updateNote(Note note, Integer id) {
+    public Note updateNote(Note note, Integer id) throws ObjectNotFoundException {
         Optional<Note> existingNoteOpt = this.getNoteById(id);
         if (existingNoteOpt.isPresent()) {
-            note.setId(id);
+            Note existingNote = existingNoteOpt.get();
+            existingNote.setTitle(note.getTitle());  // Użyj istniejącego obiektu
+            return this.noteRepository.save(existingNote); // Zapisz zmiany w istniejącym obiekcie
         }
-        return this.createNote(note);
+        throw new ObjectNotFoundException(id);
     }
 
     public void deleteNote(Integer id) throws ObjectNotFoundException {
