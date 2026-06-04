@@ -50,7 +50,7 @@ public class NoteController {
     @Operation(method = "PUT", summary = "Update a note", description = "Update an existing note by id")
     public ResponseEntity<Note> updateNote(
             @Parameter(name = "id", description = "ID of the note to update") @PathVariable Integer id,
-            @Parameter(name = "Note", description = "Updated note data") @RequestBody Note note) {
+            @Parameter(name = "Note", description = "Updated note data") @RequestBody Note note) throws ObjectNotFoundException {
 
         Note updatedNote = noteService.updateNote(note, id);
         return ResponseEntity.ok(updatedNote);
