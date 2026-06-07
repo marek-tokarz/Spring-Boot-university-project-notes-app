@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # MySQL Database Service
+  mysql-db:
+    image: mysql:8.0
+    container_name: spring-mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: springpassword
+      MYSQL_DATABASE: notes_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+
+  # Spring Boot Application Service
+  spring-app:
+    build: .
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      # Overriding Spring Boot properties via environment variables
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/notes_db
+      SPRING_DATASOURCE_USERNAME: springuser
+      SPRING_DATASOURCE_PASSWORD: springpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: dev
+
+volumes:
+  mysqldata:
