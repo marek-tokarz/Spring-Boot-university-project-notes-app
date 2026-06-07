@@ -45,4 +45,8 @@ public class CategoryService {
         }
         categoryRepository.deleteById(id);
     }
+
+    public void deleteAllCategories() {
+        categoryRepository.deleteAll(); // To wykona operację usunięcia wszystkich kategorii
+    }
 }
